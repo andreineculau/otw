@@ -1,0 +1,15 @@
+framework: mocha
+src_files:
+- src/*.js
+- test/*.js
+serve_files:
+- src/*.js
+- test/*.js
+launchers:
+    Mocha:
+        command: mocha test/*.js -R tap
+        protocol: tap
+launch_in_dev:
+    - Mocha
+launch_in_ci:
+    - Mocha
