@@ -1,13 +1,13 @@
 {
-  "name": "otwType",
+  "name": "otw",
   "preferGlobal": false,
   "version": "0.0.1",
   "author": "Andrei Neculau <andrei.neculau@gmail.com>",
-  "description": "type (One Thing Well)",
+  "description": "One Thing Well",
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "git://github.com/andreineculau/otwType.git"
+    "url": "git://github.com/andreineculau/otw.git"
   },
   "keywords": [
     "javascript",
@@ -29,5 +29,5 @@
   "bundleDependencies": [],
   "scripts": {},
   "bin": {},
-  "main": "src/type.js"
+  "main": "index.js"
 }
