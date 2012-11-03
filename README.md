@@ -6,4 +6,4 @@ is a collection of small utility AMD/CJS modules.
 
 ## Modules
 
-* [type](src/type.js.README.md)
+* [type](blobl/master/src/type.js.README.md)
