@@ -12,7 +12,7 @@ Don't use `instanceof`, and also not `typeof`.
 ## Usage
 
 ```javascript
-var type = require('otwType');
+var type = require('otw/src/type');
 
 type({a: 4});    // 'object
 type([1, 2, 3]); // 'array'
