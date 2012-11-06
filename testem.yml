@@ -1,7 +1,7 @@
 framework: mocha
 before_tests: coffee -c like test
-#after_tests: rm like/*.js test/*.js
-on_quit: rm like/*/*.js test/*/*.js
+#after_tests: rm like/*.js like/*/*.js test/*.js test/*/*.js
+#on_quit: rm like/*.js like/*/*.js test/*.js test/*/*.js
 src_files:
 - like/*.coffee
 - like/*/*.coffee
