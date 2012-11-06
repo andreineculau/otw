@@ -11,7 +11,6 @@ define [
 ) ->
   "use strict"
   nativeForEach = Array::forEach
-  breaker = {}
 
   (obj, iterator, context) ->
     return  unless obj?
@@ -22,8 +21,8 @@ define [
       l = obj.length
 
       while i < l
-        return  if iterator.call(context, obj[i], i, obj) is breaker
+        iterator.call context, obj[i], i, obj
         i++
     else
-      for key of obj
-        return  if _has(obj, key) and iterator.call(context, obj[key], key, obj) is breaker
+      for own key of obj
+        iterator.call context, obj[key], key, obj

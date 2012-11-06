@@ -5,4 +5,4 @@ define ->
 
   (fun, context) ->
   (fun, context) ->
-    () -> doNext () -> fun.apply (context or @), arguments
+    (args...) -> doNext () -> fun.apply (context or @), args

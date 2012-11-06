@@ -11,16 +11,15 @@ define [
 ) ->
   "use strict"
   nativeBind = Function::bind
-  slice = Array::slice
 
-  (func, context) ->
-    return nativeBind.apply(func, slice.call(arguments_, 1))  if func.bind is nativeBind and nativeBind
+  (fun, args...) ->
+    return nativeBind.apply fun, args  if fun.bind is nativeBind and nativeBind
     throw new TypeError  unless _type(func) is 'function'
-    args = slice.call(arguments_, 2)
+    context = args.shift()
     bound = ->
-      return func.apply(context, args.concat(slice.call(arguments_)))  unless this instanceof bound
-      ctor:: = func::
+      return fun.apply context, args  unless this instanceof bound
+      ctor:: = fun::
       self = new ctor
-      result = func.apply(self, args.concat(slice.call(arguments_)))
+      result = fun.apply self, args
       return result  if Object(result) is result
       self

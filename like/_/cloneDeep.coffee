@@ -21,12 +21,11 @@ define [
       return base.clone()  if _type(base.clone) is 'function'
       return base  unless typeof base is 'object'
       copy = base.constructor()
-      for attr of base
-        continue  unless Object.prototype.hasOwnProperty base, attr
+      for own attr of base
         copy[attr] = base[attr]
       return copy
 
     args.unshift base
     if _type(deep) isnt 'undefined'
       args.unshift deep
-    _extendDeep.apply _, args
+    _extendDeep.apply null, args

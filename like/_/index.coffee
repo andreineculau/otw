@@ -9,6 +9,7 @@ define [
   './map'
   './prop'
   './type'
+  './Deferred'
 ], (
   _async
   _bind
@@ -19,6 +20,7 @@ define [
   _map
   _prop
   _type
+  Deferred
 ) ->
   "use strict"
   {
@@ -31,4 +33,5 @@ define [
     map: _map
     prop: _prop
     type: _type
+    Deferred: Deferred
   }

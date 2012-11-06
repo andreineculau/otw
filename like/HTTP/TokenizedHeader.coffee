@@ -1,5 +1,4 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
-
 define [
   './_'
 ], (
@@ -38,7 +37,7 @@ define [
       else
         @_parseHeader header
 
-      for optionName, option of options
+      for own optionName, option of options
         continue  unless optionName in @_optionNames
         @["_#{optionName}"] = option
 
