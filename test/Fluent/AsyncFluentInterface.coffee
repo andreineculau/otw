@@ -25,7 +25,7 @@ describe 'AsyncFluentInterface', () ->
     syncFunA: (stack) ->
       @pushStack stack
 
-    asyncFunA: (stack, callback, err) ->
+    asyncFunA: (stack, callback, err, resp) ->
       return callback err  if err
       callFunAsync @syncFunA, @, [stack], callback
 
@@ -33,7 +33,7 @@ describe 'AsyncFluentInterface', () ->
       result = @pushStack stack
       result
 
-    asyncFunB: (stack, callback, err) ->
+    asyncFunB: (stack, callback, err, resp) ->
       return callback err  if err
       callFunAsync @syncFunB, @, [stack], callback
 
@@ -101,7 +101,7 @@ describe 'AsyncFluentInterface', () ->
   describe '.each()', () ->
     it 'should return the iterator\'s resp as an array in callback\'s resp', (done) ->
       a = new A()
-      iterator = (elem, next) ->
+      iterator = (next, elem) ->
         next null, elem-3
       a.asyncFunA(notExpectedStack).each(iterator).callback (err, resp) ->
         done err  if err
@@ -113,7 +113,7 @@ describe 'AsyncFluentInterface', () ->
   describe '.map()', () ->
     it 'should return the iterator\'s resp as an array in callback\'s resp, and as the new stack', (done) ->
       a = new A()
-      iterator = (elem, next) ->
+      iterator = (next, elem) ->
         next null, elem-3
       a.asyncFunA(notExpectedStack).map(iterator).callback (err, resp) ->
         done err  if err

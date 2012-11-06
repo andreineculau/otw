@@ -18,8 +18,6 @@ define [
     ####
 
     constructor: (context) ->
-      @each = @_makeEachOrMap 'each'
-      @map = @_makeEachOrMap 'map'
       @_chainableActions = @_chainableActions.concat ['each', 'map']
       for superAction in ['get', 'eq', 'end']
         @[superAction] = @_makeSuperActionAsync superAction
@@ -87,7 +85,14 @@ define [
       action = actionChain.shift()
       $ = @_getComingInterface resp
       comingNext = @_makeActionNext action
-      args = action.args.concat [comingNext, err, resp]
+
+      args = action.args.concat []
+      argsPos = action.fun.length-3
+      args[argsPos] = comingNext
+      args[argsPos+1] = err
+      args[argsPos+2] = resp
+      #args = action.args.concat [comingNext, err, resp]
+
       action.fun.apply $, args
 
     ####
@@ -102,34 +107,17 @@ define [
         @chainAction _placeholderAction, null, args
 
 
-    _makeEachOrMap: (fun = 'each') ->
-      maybePushStack = (allResp) =>
-        return allResp  if fun is 'each'
-        @pushStack allResp
+    each: (iterator, context, callback, err, resp) ->
+      return callback err  if err
+      _.eachAsync @, callback, iterator, context
 
-      (iterator, context) ->
-        return sup[fun] iterator, context  unless @_isAsync()
 
-        length = @size()
-        count = -1
-        allResp = []
-
-        if length is 0
-          next null, []
-          return @
-
-        callIterator = (elem) =>
-          iterator.call (context or @), elem, nextElem
-
-        nextElem = (err, resp) =>
-          allResp.push resp  if count isnt -1
-          count++
-          return @_defaultActionCallback err, allResp  if err
-          return @_defaultActionCallback null, maybePushStack allResp  if count is length
-          callIterator @[allResp.length]
-        nextElem()
-
-        @
+    map: (iterator, context, callback, err, resp) ->
+      return callback err  if err
+      callback2 = (err, resp) =>
+        return callback err  if err
+        callback null, @pushStack resp
+      _.mapAsync @, callback2, iterator, context
 
     ####
 

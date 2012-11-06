@@ -3,14 +3,18 @@ define [
   '../_/async'
   '../_/bind'
   '../_/cloneDeep'
+  '../_/eachAsync'
   '../_/map'
+  '../_/mapAsync'
   '../_/type'
   '../_/Deferred'
 ], (
   _async
   _bind
   _cloneDeep
+  _eachAsync
   _map
+  _mapAsync
   _type
   Deferred
   _
@@ -20,7 +24,9 @@ define [
     async: _async
     bind: _bind
     cloneDeep: _cloneDeep
+    eachAsync: _eachAsync
     map: _map
+    mapAsync: _mapAsync
     type: _type
     Deferred: Deferred
   }
