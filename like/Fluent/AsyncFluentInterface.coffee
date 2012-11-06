@@ -87,11 +87,11 @@ define [
       comingNext = @_makeActionNext action
 
       args = action.args.concat []
-      argsPos = action.fun.length-3
-      args[argsPos] = comingNext
-      args[argsPos+1] = err
-      args[argsPos+2] = resp
-      #args = action.args.concat [comingNext, err, resp]
+      args[action.fun.length-1] = {
+        next: comingNext
+        err: err
+        resp: resp
+      }
 
       action.fun.apply $, args
 
@@ -101,27 +101,31 @@ define [
       (args...) =>
         return sup[funName].apply @, args  unless @_isAsync()
 
-        _placeholderAction = (args, next, err, resp) ->
+        _placeholderAction = (args, callback) ->
+          {next, err, resp} = callback
           return next err  if err
           next null, sup[funName].apply @, args
         @chainAction _placeholderAction, null, args
 
 
-    each: (iterator, context, callback, err, resp) ->
-      return callback err  if err
-      _.eachAsync @, callback, iterator, context
+    each: (iterator, context, callback) ->
+      {next, err, resp} = callback
+      return next err  if err
+      _.eachAsync @, next, iterator, context
 
 
-    map: (iterator, context, callback, err, resp) ->
-      return callback err  if err
-      callback2 = (err, resp) =>
-        return callback err  if err
-        callback null, @pushStack resp
-      _.mapAsync @, callback2, iterator, context
+    map: (iterator, context, callback) ->
+      {next, err, resp} = callback
+      return next err  if err
+      next2 = (err, resp) =>
+        return next err  if err
+        next null, @pushStack resp
+      _.mapAsync @, next2, iterator, context
 
     ####
 
-    _callback: (next, err, resp) ->
+    _callback: (callback) ->
+      {next, err, resp} = callback
       return next err  if err
       next null, resp
 
@@ -133,7 +137,8 @@ define [
 
     ####
 
-    _promise: (next, err, resp) ->
+    _promise: (callback) ->
+      {next, err, resp} = callback
       return next err  if err
       next null, @
 

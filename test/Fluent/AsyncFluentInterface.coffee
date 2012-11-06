@@ -25,17 +25,19 @@ describe 'AsyncFluentInterface', () ->
     syncFunA: (stack) ->
       @pushStack stack
 
-    asyncFunA: (stack, callback, err, resp) ->
-      return callback err  if err
-      callFunAsync @syncFunA, @, [stack], callback
+    asyncFunA: (stack, callback) ->
+      {next, err, resp} = callback
+      return next err  if err
+      callFunAsync @syncFunA, @, [stack], next
 
     syncFunB: (stack) ->
       result = @pushStack stack
       result
 
-    asyncFunB: (stack, callback, err, resp) ->
-      return callback err  if err
-      callFunAsync @syncFunB, @, [stack], callback
+    asyncFunB: (stack, callback) ->
+      {next, err, resp} = callback
+      return next err  if err
+      callFunAsync @syncFunB, @, [stack], next
 
 
   it 'should support basic sync functionality', () ->
