@@ -1,23 +1,23 @@
 framework: mocha
-before_tests: coffee -c like test
-#after_tests: rm like/*.js like/*/*.js test/*.js test/*/*.js
-#on_quit: rm like/*.js like/*/*.js test/*.js test/*/*.js
+# before_tests: coffee -c like test
+# after_tests: rm like/*.js like/*/*.js test/*.js test/*/*.js
+# on_quit: rm like/*.js like/*/*.js test/*.js test/*/*.js
 src_files:
 - like/*.coffee
 - like/*/*.coffee
 - test/*.coffee
 - test/*/*.coffee
-serve_files:
-- like/*.js
-- like/*/*.js
-- test/*.js
-- test/*/*.js
+# serve_files:
+# - like/*.js
+# - like/*/*.js
+# - test/*.js
+# - test/*/*.js
 launchers:
     Mocha:
-        command: mocha test/*.js test/*/*.js -R tap
+        command: mocha -r coffee-script -R tap  test/*.coffee test/*/*.coffee
         protocol: tap
     MochaSpec:
-        command: mocha test/*.js test/*/*.js -R spec
+        command: mocha -r coffee-script -R spec test/*.coffee test/*/*.coffee
 launch_in_dev:
     - Mocha
 launch_in_ci:

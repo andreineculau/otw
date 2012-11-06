@@ -38,7 +38,7 @@
   },
   "bundleDependencies": [],
   "scripts": {
-     "install": "./node_modules/.bin/coffee -c like/*.js like/*/*.js"
+     "install": "./node_modules/.bin/coffee -c like",
      "test": "./node_modules/.bin/testem ci"
   },
   "bin": {},
