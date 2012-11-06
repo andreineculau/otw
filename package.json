@@ -19,7 +19,8 @@
     "node": "~0.8.12"
   },
   "dependencies": {
-    "amdefine": "0.0.4"
+    "coffee-script": "~1.4.0",
+    "amdefine": "~0.0.4"
   },
   "devDependencies": {
     "testem": "~0.2.13",
