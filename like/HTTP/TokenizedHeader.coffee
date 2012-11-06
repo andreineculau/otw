@@ -69,8 +69,7 @@ define [
         params = _.map token, (value, key) =>
           [key, value] = @_stringifyParamCallback [key, value]  if @_stringifyParamCallback
           return  if _.type(key) is 'undefined'
-          if value is true
-            return key
+          return key  if value is true
           value = "\"#{value}\""  if /\ /.test value
           [key, value].join @_keyValueSep
         params = _.compact params

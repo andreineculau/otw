@@ -28,7 +28,6 @@ describe 'AsyncFluentInterface', () ->
     asyncFunA: (stack, callback, err) ->
       return callback err  if err
       callFunAsync @syncFunA, @, [stack], callback
-      @
 
     syncFunB: (stack) ->
       result = @pushStack stack
@@ -37,7 +36,6 @@ describe 'AsyncFluentInterface', () ->
     asyncFunB: (stack, callback, err) ->
       return callback err  if err
       callFunAsync @syncFunB, @, [stack], callback
-      @
 
 
   it 'should support basic sync functionality', () ->
