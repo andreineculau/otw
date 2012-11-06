@@ -29,7 +29,6 @@
     "coffee-script": "~1.4.0",
     "amdefine": "~0.0.4",
     "underscore": "~1.4.2",
-    "lodash": "~0.9.1",
     "node.extend": "~1.0.0",
     "JQDeferred": "~1.8.2"
   },
