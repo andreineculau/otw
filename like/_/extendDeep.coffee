@@ -1,13 +1,8 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
-  './like/_'
-  './like/HTTP'
-  './like/JSON'
+  'node.extend'
 ], (
-  _
-  HTTP
-  JSON
-) ->
+  extendDeep
+)->
   "use strict"
-  _.HTTP = HTTP
-  _.JSON = JSON
+  extendDeep

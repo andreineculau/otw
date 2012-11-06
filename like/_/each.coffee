@@ -4,7 +4,11 @@
 # (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
 
 define = require('amdefine')(module)  if typeof define isnt 'function'
-define ->
+define [
+  './has'
+], (
+  _has
+) ->
   "use strict"
   nativeForEach = Array::forEach
   breaker = {}
@@ -22,4 +26,4 @@ define ->
         i++
     else
       for key of obj
-        return  if _.has(obj, key) and iterator.call(context, obj[key], key, obj) is breaker
+        return  if _has(obj, key) and iterator.call(context, obj[key], key, obj) is breaker
