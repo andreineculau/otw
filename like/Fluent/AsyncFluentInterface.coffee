@@ -71,7 +71,7 @@ define [
     _makeActionNext: (action) ->
       (err, resp) =>
         $ = @_getComingInterface resp
-        #return $.callNextAction err  unless action.callback
+        return $.callNextAction err  unless action.callback
         @_maybeEndActionChain()
         asyncCallback = _.async action.callback, $
         asyncCallback err, resp, $.callNextAction
@@ -133,7 +133,7 @@ define [
     callback: (callback) ->
       @chainAction @_callback, callback
       @_maybeStartActionChain()
-      @
+      undefined
 
     ####
 
