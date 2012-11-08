@@ -1,7 +1,10 @@
 {should} = require '../utils'
-contentTypeHeader = require '../../like/HTTP/ContentTypeHeader'
 
 describe 'ContentTypeHeader', () ->
+  contentTypeHeader = require '../../like/HTTP/ContentTypeHeader'
+
+  ####
+
   it 'should parse a simple Content-Type header correctly', () ->
     h = new contentTypeHeader 'application/json'
     h.tokens.should.eql [

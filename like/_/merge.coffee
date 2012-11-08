@@ -1,9 +1,11 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
-  'node.extend'
+  './extendDeep'
 ], (
   _extendDeep
 )->
   "use strict"
 
-  _extendDeep
+  (args...) ->
+    args.unshift true
+    _extendDeep.apply {}, args

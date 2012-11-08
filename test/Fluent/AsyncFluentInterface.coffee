@@ -20,8 +20,6 @@ describe 'AsyncFluentInterface', () ->
       'asyncFunB'
     ]
 
-    ####
-
     syncFunA: (stack) ->
       @pushStack stack
 
@@ -39,6 +37,7 @@ describe 'AsyncFluentInterface', () ->
       return next err  if err
       callFunAsync @syncFunB, @, [stack], next
 
+  ####
 
   it 'should support basic sync functionality', () ->
     a = new A

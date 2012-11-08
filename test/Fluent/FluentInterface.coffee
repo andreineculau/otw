@@ -5,6 +5,7 @@ describe 'FluentInterface', () ->
   expectedStack = [1,2,3]
   expectedContext = {test:true}
 
+  ####
 
   describe 'stack', () ->
     it 'should have basic functionality when empty', () ->

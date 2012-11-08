@@ -7,5 +7,8 @@ define [
   __
 ) ->
   "use strict"
+
+  delete __.clone
+  delete __.merge
   _.mixin __
   _

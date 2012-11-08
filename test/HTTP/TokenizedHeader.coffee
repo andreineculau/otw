@@ -1,7 +1,10 @@
 {should} = require '../utils'
-TokenizedHeader = require '../../like/HTTP/TokenizedHeader'
 
 describe 'TokenizedHeader', () ->
+  TokenizedHeader = require '../../like/HTTP/TokenizedHeader'
+
+  ####
+
   it 'should parse headers with one token correctly', () ->
     h = new TokenizedHeader 'test'
     h.tokens.should.eql [{test:true}]

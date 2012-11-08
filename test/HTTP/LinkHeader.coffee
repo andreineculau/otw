@@ -1,7 +1,10 @@
 {should} = require '../utils'
-LinkHeader = require '../../like/HTTP/LinkHeader'
 
 describe 'LinkHeader', () ->
+  LinkHeader = require '../../like/HTTP/LinkHeader'
+
+  ####
+
   it 'should parse a simple Link header correctly', () ->
     h = new LinkHeader '<https://klarna.com>'
     h.tokens.should.eql [

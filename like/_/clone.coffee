@@ -1,9 +1,10 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
-  'JQDeferred'
+  './cloneDeep'
 ], (
-  Deferred
-) ->
+  _extendDeep
+)->
   "use strict"
 
-  Deferred
+  (obj, deep = false) ->
+    _cloneDeep deep, obj

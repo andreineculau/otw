@@ -7,6 +7,7 @@ define [
   _extendDeep
 )->
   "use strict"
+
   (args...) ->
     deep = undefined
     if args.length > 1 and _type(args[0]) is 'boolean'

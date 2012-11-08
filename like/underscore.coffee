@@ -7,5 +7,6 @@ define [
   __
 ) ->
   "use strict"
+
   _.mixin __
   _

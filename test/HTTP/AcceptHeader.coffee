@@ -1,8 +1,10 @@
 {should} = require '../utils'
-AcceptHeader = require '../../like/HTTP/AcceptHeader'
 
 describe 'AcceptHeader', () ->
-  it 'should parse a simple media-types correctly', () ->
+  AcceptHeader = require '../../like/HTTP/AcceptHeader'
+
+  ####
+
     h = new AcceptHeader '  application/json  '
     h.tokens.should.eql [
       {mediaType:'application/json',syntax:'json'}

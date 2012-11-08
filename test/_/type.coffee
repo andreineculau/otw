@@ -1,7 +1,10 @@
 {should} = require '../utils'
-type = require '../../like/_/type'
 
 describe 'type', () ->
+  type = require '../../like/_/type'
+
+  ####
+
   it 'should return expected types', ->
     type(4).should.equal 'number'
     type('abc').should.equal 'string'
