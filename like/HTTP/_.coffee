@@ -1,25 +1,31 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   '../underscore' # FIXME
-  '../_/type'
-  '../_/map'
-  '../_/prop'
-  '../_/has'
+  '../_/clone'
   '../_/cloneDeep'
+  '../_/configOption'
+  '../_/has'
+  '../_/map'
+  '../_/merge'
+  '../_/type'
 ], (
   _
-  _type
-  _map
-  _prop
-  _has
+  _clone
   _cloneDeep
+  _configOption
+  _has
+  _map
+  _merge
+  _type
 ) ->
   "use strict"
   {
-    compact: _.compact
-    type: _type
-    map: _map
-    prop: _prop
-    has: _has
+    clone: _clone
     cloneDeep: _cloneDeep
+    compact: _.compact
+    configOption: _configOption
+    has: _has
+    map: _map
+    merge: _merge
+    type: _type
   }

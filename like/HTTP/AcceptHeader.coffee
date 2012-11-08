@@ -6,6 +6,8 @@ define [
   _
   TokenizedHeader
 ) ->
+  "use strict"
+
   # Accept allows manipulation of Accept headers
   class AcceptHeader extends TokenizedHeader
     _parseParamCallback: ([key, value]) ->
@@ -41,4 +43,4 @@ define [
     constructor: (header, config = {}) ->
       unless (@ instanceof AcceptHeader)
         return new AcceptHeader(header, config)
-      super header, config
+      super

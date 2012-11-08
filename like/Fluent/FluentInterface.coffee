@@ -9,6 +9,7 @@ define [
 ], (
   _
 ) ->
+  "use strict"
   core_slice = Array.prototype.slice
   merge = (first, second) ->
     secondLen = second.length
@@ -24,8 +25,9 @@ define [
 
   class FluentInterface
     self = @
+    @_defaultContext: {}
+
     _context: undefined
-    _defaultContext: {}
     _prevInterface: undefined
     length: 0
 
@@ -33,7 +35,7 @@ define [
 
     constructor: (context) ->
       context ?= {}
-      @_context = _.cloneDeep true, @_defaultContext, context
+      @_context = _.cloneDeep true, @constructor._defaultContext, context
 
     ####
 

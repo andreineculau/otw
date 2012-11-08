@@ -6,13 +6,15 @@ define [
   _
   FluentInterface
 ) ->
+  "use strict"
+
   class AsyncFluentInterface extends FluentInterface
     self = @
     sup = self.__super__
 
-    _defaultContext:
+    @_defaultContext:
       actionChain: []
-      isActionOngoing: false
+      actionChainPos: -1
     _chainableActions: [] # funs to replace with a fluent equivalent
 
     ####
@@ -26,7 +28,9 @@ define [
       #
       super
       for chainableAction in @_chainableActions
+        originalAction = @[chainableAction]
         @[chainableAction] = @_makeChainAction @[chainableAction]
+        @[chainableAction].original = originalAction
 
     ####
 
@@ -44,6 +48,11 @@ define [
       @context 'isActionOngoing', (@context('actionChain').length isnt 0)
 
     ####
+
+    _defaultAction: (callback) ->
+      {next, err, resp} = callback
+      next err, resp
+
 
     _defaultActionCallback: (err, resp) ->
       @callNextAction err, resp
@@ -124,28 +133,16 @@ define [
 
     ####
 
-    _callback: (callback) ->
-      {next, err, resp} = callback
-      return next err  if err
-      next null, resp
-
-
     callback: (callback) ->
-      @chainAction @_callback, callback
+      @chainAction @_defaultAction, callback
       @_maybeStartActionChain()
       undefined
 
     ####
 
-    _promise: (callback) ->
-      {next, err, resp} = callback
-      return next err  if err
-      next null, @
-
-
     promise: () ->
       dfd = new _.Deferred
-      @chainAction @_promise, (err, resp) =>
+      @chainAction @_defaultAction, (err, resp) =>
         dfd.reject err  if err
         dfd.resolve resp
       @_maybeStartActionChain()

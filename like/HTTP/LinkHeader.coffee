@@ -6,6 +6,8 @@ define [
   _
   TokenizedHeader
 ) ->
+  "use strict"
+
   # LinkHeader allows manipulation of Link headers
   class LinkHeader extends TokenizedHeader
     _parseParamCallback: ([key, value]) ->

@@ -144,7 +144,7 @@ describe 'AsyncFluentInterface', () ->
         .fail((err) ->
           done err
         ).done((resp) ->
-          resp.get().should.eql expectedStack
+          resp.should.eql expectedStack
           done()
         )
 

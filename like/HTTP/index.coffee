@@ -11,6 +11,7 @@ define [
   TokenizedHeader
 ) ->
   "use strict"
+
   {
     AcceptHeader: AcceptHeader
     ContentTypeHeader: ContentTypeHeader

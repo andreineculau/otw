@@ -4,53 +4,52 @@ define [
 ], (
   _
 ) ->
+  "use strict"
+
   # TokenizedHeader allows manipulation of "key1; key2=value, key3=value" headers
   class TokenizedHeader
-    _tokens: []
-    _.prop.call @, 'tokens'
-
-    # options
-    _tokenSep: ','
-    _paramSep: ';'
-    _keyValueSep: '='
-    _parseParamCallback: undefined
-    _stringifyParamCallback: undefined
-    _optionNames = [
+    self = @
+    config: undefined
+    # Shortcuts
+    _.configOption.call @, configOption  for configOption in [
       'tokenSep'
       'paramSep'
       'keyValueSep'
-      'parseParamCallback'
-      'stringifyParamCallback'
     ]
-    _optionNames: _optionNames
-    for _optionName in _optionNames
-      _.prop.call @, _optionName
+    tokens: undefined
 
-
-    constructor: (header, options = {}) ->
+    constructor: (header, config = {}) ->
       unless (@ instanceof TokenizedHeader)
         return new TokenizedHeader(header, config)
 
+      defaultConfig =
+        tokenSep: ','
+        paramSep: ';'
+        keyValueSep: '='
+
+      @config = _.merge defaultConfig, config
+
       if header instanceof TokenizedHeader
-        for optionName in @_optionNames
-          @["_#{optionName}"] = _.cloneDeep true, header[optionName]
+        header.clone @
       else
         @_parseHeader header
 
-      for own optionName, option of options
-        continue  unless optionName in @_optionNames
-        @["_#{optionName}"] = option
 
+    clone: (newInstance) ->
+      newInstance.config = _.clone @config, true
+      newInstance.tokens = _.clone @tokens, true
+
+    ####
 
     _parseHeader: (header) ->
-      tokens = header.split @_tokenSep
+      tokens = header.split @tokenSep
       tokens = _.map tokens, (token) =>
         token = token.trim()
-        params = token.split @_paramSep
+        params = token.split @paramSep
         token = {}
         for param in params
           param = param.trim()
-          [key, value] = param.split @_keyValueSep
+          [key, value] = param.split @keyValueSep
           [key, value] = @_parseParamCallback [key, value]  if @_parseParamCallback
           key = key.trim()
           if _.type(value) is 'string'
@@ -61,8 +60,9 @@ define [
           token[key] ?= value
         token = @_parseTokenCallback token  if @_parseTokenCallback
         token
-      @_tokens = tokens
+      @tokens = tokens
 
+    ####
 
     _toString: (tokens) ->
       tokens = _.map tokens, (token) =>
@@ -71,13 +71,13 @@ define [
           return  if _.type(key) is 'undefined'
           return key  if value is true
           value = "\"#{value}\""  if /\ /.test value
-          [key, value].join @_keyValueSep
+          [key, value].join @keyValueSep
         params = _.compact params
         params = @_stringifyTokenCallback params, token  if @_stringifyTokenCallback
-        params.join @_paramSep
+        params.join @paramSep
       tokens = _.compact tokens
-      tokens.join @_tokenSep
+      tokens.join @tokenSep
 
 
     toString: () ->
-      @_toString @._tokens
+      @_toString @tokens

@@ -5,6 +5,7 @@ describe 'AcceptHeader', () ->
 
   ####
 
+  it 'should parse a simple media-types correctly', () ->
     h = new AcceptHeader '  application/json  '
     h.tokens.should.eql [
       {mediaType:'application/json',syntax:'json'}

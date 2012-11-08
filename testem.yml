@@ -14,10 +14,10 @@ src_files:
 # - test/*/*.js
 launchers:
     Mocha:
-        command: mocha -r coffee-script -R tap  test/*.coffee test/*/*.coffee
+        command: mocha -G --compilers coffee:coffee-script -R tap  test/*.coffee test/*/*.coffee
         protocol: tap
     MochaSpec:
-        command: mocha -r coffee-script -R spec test/*.coffee test/*/*.coffee
+        command: mocha -G --compilers coffee:coffee-script -R spec test/*.coffee test/*/*.coffee
 launch_in_dev:
     - Mocha
 launch_in_ci:
