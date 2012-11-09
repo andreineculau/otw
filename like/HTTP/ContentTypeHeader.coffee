@@ -15,8 +15,7 @@ define [
     ####
 
     constructor: (header, options = {}) ->
-      unless (@ instanceof ContentTypeHeader)
-        return new ContentTypeHeader(header, options)
+      return new ContentTypeHeader(header, config)  unless @ instanceof ContentTypeHeader
       super
       @tokens = @tokens.slice 0, 1
       @token = @tokens[0]

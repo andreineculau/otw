@@ -19,20 +19,15 @@ define [
     tokens: undefined
 
     constructor: (header, config = {}) ->
-      unless (@ instanceof TokenizedHeader)
-        return new TokenizedHeader(header, config)
+      return new TokenizedHeader(header, config)  unless @ instanceof TokenizedHeader
+      return header.clone @  if header instanceof TokenizedHeader
 
       defaultConfig =
         tokenSep: ','
         paramSep: ';'
         keyValueSep: '='
-
       @config = _.merge defaultConfig, config
-
-      if header instanceof TokenizedHeader
-        header.clone @
-      else
-        @_parseHeader header
+      @_parseHeader header
 
 
     clone: (newInstance) ->

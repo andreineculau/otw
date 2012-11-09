@@ -33,6 +33,5 @@ define [
 
 
     constructor: (header, config = {}) ->
-      unless (@ instanceof LinkHeader)
-        return new LinkHeader(header, config)
+      return new LinkHeader(header, config)  unless @ instanceof LinkHeader
       super header, config

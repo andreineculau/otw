@@ -14,7 +14,7 @@ define [
 
   (fun, args...) ->
     return nativeBind.apply fun, args  if fun.bind is nativeBind and nativeBind
-    throw new TypeError  unless _type(func) is 'function'
+    throw new TypeError  unless _type(fun) is 'function'
     context = args.shift()
     bound = ->
       return fun.apply context, args  unless this instanceof bound

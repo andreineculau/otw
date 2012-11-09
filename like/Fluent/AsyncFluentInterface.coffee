@@ -11,22 +11,25 @@ define [
   class AsyncFluentInterface extends FluentInterface
     self = @
     sup = self.__super__
-
-    @_defaultContext:
-      actionChain: []
-      actionChainPos: -1
     _chainableActions: [] # funs to replace with a fluent equivalent
 
     ####
 
-    constructor: (context) ->
+    constructor: (context = {}) ->
+      return new AsyncFluentInterface(context)  unless @ instanceof AsyncFluentInterface
+
       @_chainableActions = @_chainableActions.concat ['each', 'map']
       for superAction in ['get', 'eq', 'end']
         @[superAction] = @_makeSuperActionAsync superAction
       @_maybeStartActionChain = _.async @_maybeStartActionChain, @
       @callNextAction = _.async @callNextAction, @
       #
-      super
+      context = _.merge {
+        actionChain: []
+        actionChainPos: -1
+      }, context
+
+      super context
       for chainableAction in @_chainableActions
         originalAction = @[chainableAction]
         @[chainableAction] = @_makeChainAction @[chainableAction]
@@ -133,8 +136,14 @@ define [
 
     ####
 
+    _callbackAction: (callback) ->
+      {next, err, resp} = callback
+      @_maybeEndActionChain()
+      next err, resp
+
+
     callback: (callback) ->
-      @chainAction @_defaultAction, callback
+      @chainAction @_callbackAction, callback
       @_maybeStartActionChain()
       undefined
 

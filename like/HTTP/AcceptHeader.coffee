@@ -41,6 +41,5 @@ define [
 
 
     constructor: (header, config = {}) ->
-      unless (@ instanceof AcceptHeader)
-        return new AcceptHeader(header, config)
+      return new AcceptHeader(header, config)  unless @ instanceof AcceptHeader
       super

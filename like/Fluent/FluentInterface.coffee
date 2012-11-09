@@ -25,7 +25,6 @@ define [
 
   class FluentInterface
     self = @
-    @_defaultContext: {}
 
     _context: undefined
     _prevInterface: undefined
@@ -34,8 +33,10 @@ define [
     ####
 
     constructor: (context) ->
+      return new FluentInterface(context)  unless @ instanceof FluentInterface
+
       context ?= {}
-      @_context = _.cloneDeep true, @constructor._defaultContext, context
+      @_context = context
 
     ####
 
@@ -54,7 +55,7 @@ define [
 
     clone: (newInstance) ->
       newInstance = @sibling newInstance
-      newInstance._context = _.cloneDeep @_context
+      newInstance._context = _.clone @_context, true
       newInstance
 
     ####
@@ -73,11 +74,8 @@ define [
       core_slice.call @
 
 
-    get: (numOrKey) ->
+    get: (num) ->
       return @toArray()  unless num?
-
-      if _.type(numOrKey) is 'string'
-        return @[0][numOrKey]
 
       num = @length + num  if num < 0
       @[num]
