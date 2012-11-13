@@ -6,16 +6,25 @@ describe 'TokenizedHeader', () ->
   ####
 
   it 'should parse headers with one token correctly', () ->
+    h = new TokenizedHeader 'test=true'
+    h.tokens.should.eql [{test:'true'}]
+
+
+  it 'should parse non-value tokens into token with Boolean value true', () ->
     h = new TokenizedHeader 'test'
     h.tokens.should.eql [{test:true}]
 
     h = new TokenizedHeader 'test='
     h.tokens.should.eql [{test:''}]
 
-    h = new TokenizedHeader 'test=true'
+
+  it 'should ignore whitespace', () ->
+    h = new TokenizedHeader ' test = true '
     h.tokens.should.eql [{test:'true'}]
 
-    h = new TokenizedHeader ' test = true '
+
+  it 'should treat token keys as case-insensitive', () ->
+    h = new TokenizedHeader 'Test=true'
     h.tokens.should.eql [{test:'true'}]
 
 

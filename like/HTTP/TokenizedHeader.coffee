@@ -45,6 +45,7 @@ define [
         for param in params
           param = param.trim()
           [key, value] = param.split @keyValueSep
+          key = key.toLowerCase()
           [key, value] = @_parseParamCallback [key, value]  if @_parseParamCallback
           key = key.trim()
           if _.type(value) is 'string'
