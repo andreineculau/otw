@@ -10,7 +10,6 @@ define [
   _
 ) ->
   "use strict"
-  core_slice = Array.prototype.slice
   merge = (first, second) ->
     secondLen = second.length
     firstLen = first.length
@@ -71,7 +70,7 @@ define [
 
 
     toArray: () ->
-      core_slice.call @
+      Array::slice.call @
 
 
     get: (num) ->
@@ -90,7 +89,27 @@ define [
 
 
     slice: () ->
-      @pushStack slice.apply(@, arguments), 'slice', core_slice.call(arguments).join(',')
+      @pushStack Array::slice.apply @, arguments
+
+
+    push: () ->
+      Array::push.apply @, arguments
+      @
+
+
+    pop: () ->
+      Array::push.apply @, arguments
+      @
+
+
+    shift: () ->
+      Array::shift.apply @, arguments
+      @
+
+
+    unshift: () ->
+      Array::unshift.apply @, arguments
+      @
 
 
     eq: (num) ->

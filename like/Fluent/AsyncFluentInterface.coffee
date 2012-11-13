@@ -19,8 +19,18 @@ define [
       return new AsyncFluentInterface(context)  unless @ instanceof AsyncFluentInterface
 
       @_chainableActions = @_chainableActions.concat ['each', 'map']
-      for superAction in ['get', 'eq', 'end']
-        @[superAction] = @_makeSuperActionAsync superAction
+      @[superAction] = @_makeSuperActionAsync superAction  for superAction in [
+        'slice'
+        'push'
+        'pop'
+        'shift'
+        'unshift'
+        'get'
+        'eq'
+        'first'
+        'last'
+        'end'
+      ]
       @_maybeStartActionChain = _.async @_maybeStartActionChain, @
       @callNextAction = _.async @callNextAction, @
       #
