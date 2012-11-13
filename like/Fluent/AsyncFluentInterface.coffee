@@ -20,16 +20,22 @@ define [
 
       @_chainableActions = @_chainableActions.concat ['each', 'map']
       @[superAction] = @_makeSuperActionAsync superAction  for superAction in [
-        'slice'
-        'push'
-        'pop'
-        'shift'
-        'unshift'
         'get'
+        'end'
+
+        'pop'
+        'push'
+        'reverse'
+        'shift'
+        'splice'
+        'unshift'
+
+        'concat'
+        'join'
+        'slice'
         'eq'
         'first'
         'last'
-        'end'
       ]
       @_maybeStartActionChain = _.async @_maybeStartActionChain, @
       @callNextAction = _.async @callNextAction, @

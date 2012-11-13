@@ -87,29 +87,52 @@ define [
       result._prevInterface = @
       result
 
+    end: () ->
+      @_prevInterface or @constructor(null)
 
-    slice: () ->
-      @pushStack Array::slice.apply @, arguments
+    #### Mutator methods
+
+    pop: () ->
+      result = Array::push.apply @, arguments
+      result
 
 
     push: () ->
-      Array::push.apply @, arguments
-      @
+      result = Array::push.apply @, arguments
+      result
 
 
-    pop: () ->
-      Array::push.apply @, arguments
-      @
+    reverse: () ->
+      result = Array::push.reverse @, arguments
+      result
 
 
     shift: () ->
-      Array::shift.apply @, arguments
-      @
+      result = Array::shift.apply @, arguments
+      result
+
+
+    splice: () ->
+      result = Array::splice.apply @, arguments
+      result
 
 
     unshift: () ->
-      Array::unshift.apply @, arguments
-      @
+      result = Array::unshift.apply @, arguments
+      result
+
+    #### Accessor methods
+
+    concat: () ->
+      @pushStack Array::concat.apply @, arguments
+
+
+    join: () ->
+      @pushStack Array::join.apply @, arguments
+
+
+    slice: () ->
+      @pushStack Array::slice.apply @, arguments
 
 
     eq: (num) ->
@@ -128,6 +151,7 @@ define [
       args.unshift -1
       @eq.apply @, args
 
+    #### Iterator methods
 
     each: (iterator, context) ->
       iterator.call context, stackItem  for stackItem in @
@@ -136,7 +160,3 @@ define [
 
     map: (iterator, context) ->
       @pushStack _.map @, iterator, context
-
-
-    end: () ->
-      @_prevInterface or @constructor(null)
