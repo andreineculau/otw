@@ -9,6 +9,7 @@ define [
   './eachAsync'
   './extendDeep'
   './has'
+  './isPlainObject'
   './map'
   './mapAsync'
   './merge'
@@ -24,6 +25,7 @@ define [
   _eachAsync
   _extendDeep
   _has
+  _isPlainObject
   _map
   _mapAsync
   _merge
@@ -42,6 +44,7 @@ define [
     eachAsync: _eachAsync
     extendDeep: _extendDeep
     has: _has
+    isPlainObject: _isPlainObject
     map: _map
     mapAsync: _mapAsync
     merge: _merge
