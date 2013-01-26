@@ -29,7 +29,8 @@
     "amdefine": "~0.0.4",
     "underscore": "~1.4.3",
     "node.extend": "~1.0.0",
-    "JQDeferred": "~1.9.0"
+    "JQDeferred": "~1.9.0",
+    "lodash": "~1.0.0"
   },
   "devDependencies": {
     "testem": "~0.2.55",
@@ -39,7 +40,7 @@
   },
   "bundledDependencies": [],
   "scripts": {
-    "test": "./node_modules/.bin/testem"
+    "test": "./node_modules/.bin/testem ci"
   },
   "bin": {},
   "main": "index"

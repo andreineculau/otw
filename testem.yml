@@ -1,14 +1,14 @@
 framework: mocha
-before_tests: coffee -c like test
-on_exit: find . -name "*.js" | grep "^./like\|^./test" | xargs rm
 src_files:
 - "like/*.coffee"
 - "like/*/*.coffee"
 - "test/*.coffee"
 - "test/*/*.coffee"
 launchers:
-    Mocha:
-        command: mocha -G --compilers coffee:coffee-script -R tap  test/*.coffee test/*/*.coffee
-        protocol: tap
+  Mocha:
+    command: mocha --growl --compilers coffee:coffee-script --reporter tap --recursive test
+    protocol: tap
 launch_in_dev:
-    - Mocha
+- Mocha
+launch_in_ci:
+- Mocha
