@@ -1,24 +1,14 @@
 framework: mocha
-# before_tests: coffee -c like test
-# after_tests: rm like/*.js like/*/*.js test/*.js test/*/*.js
-# on_quit: rm like/*.js like/*/*.js test/*.js test/*/*.js
+before_tests: coffee -c like test
+on_exit: find . -name "*.js" | grep "^./like\|^./test" | xargs rm
 src_files:
-- like/*.coffee
-- like/*/*.coffee
-- test/*.coffee
-- test/*/*.coffee
-# serve_files:
-# - like/*.js
-# - like/*/*.js
-# - test/*.js
-# - test/*/*.js
+- "like/*.coffee"
+- "like/*/*.coffee"
+- "test/*.coffee"
+- "test/*/*.coffee"
 launchers:
     Mocha:
         command: mocha -G --compilers coffee:coffee-script -R tap  test/*.coffee test/*/*.coffee
         protocol: tap
-    MochaSpec:
-        command: mocha -G --compilers coffee:coffee-script -R spec test/*.coffee test/*/*.coffee
 launch_in_dev:
-    - Mocha
-launch_in_ci:
     - Mocha
