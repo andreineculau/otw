@@ -10,17 +10,18 @@ define [
   class TokenizedHeader
     self = @
     config: undefined
-    # Shortcuts
-    _.configOption.call @, configOption  for configOption in [
-      'tokenSep'
-      'paramSep'
-      'keyValueSep'
-    ]
     tokens: undefined
 
     constructor: (header, config = {}) ->
       return new TokenizedHeader(header, config)  unless @ instanceof TokenizedHeader
       return header.clone @  if header instanceof TokenizedHeader
+
+      # Shortcuts
+      _.configOption.call @, configOption  for configOption in [
+        'tokenSep'
+        'paramSep'
+        'keyValueSep'
+      ]
 
       defaultConfig =
         tokenSep: ','

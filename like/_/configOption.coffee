@@ -6,4 +6,4 @@ define ->
     desc.configurable = true
     desc.get ?= () -> @config[name]
     desc.set ?= (value) -> @config[name] = value
-    Object.defineProperty @prototype, name, desc
+    Object.defineProperty @, name, desc
