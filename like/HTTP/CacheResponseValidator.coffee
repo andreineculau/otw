@@ -1,12 +1,16 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   './_'
+  './CacheRequestValidator'
+  './getNormalizedHeaders'
+  './getReqID'
   './TokenizedHeader'
-  './CachedRequestValidator'
 ], (
   _
+  CacheRequestValidator
+  getNormalizedHeaders
+  getReqID
   TokenizedHeader
-  CachedRequestValidator
 ) ->
   "use strict"
 
@@ -15,9 +19,8 @@ define [
   # Validate if a HTTP response can be cached
   class CacheResponseValidator
     self = @
-    _cachedRequestValidator: undefined
     _validators: undefined
-    _flag: undefined
+    _context: undefined
     config: undefined
 
     constructor: (config = {}) ->
@@ -25,12 +28,26 @@ define [
       _.configOption.call @, configOption  for configOption in [
         'userAgent'
       ]
+      _.configOption.call @, configOption, {}, '_context'  for configOption in [
+        '_canStore'
+        '_expiresTime'
+        '_reqID'
+        '_reqMethod'
+        '_reqURI'
+        '_reqHeaders'
+        '_res'
+        '_resHeaders'
+        '_resVary'
+        '_lastFetchedTime'
+        '_lastAccessedTime'
+        '_accessCount'
+      ]
 
       defaultConfig =
         userAgent: false
       @config = _.merge defaultConfig, config
 
-      @_cachedRequestValidator = new CachedRequestValidator
+      @_cacheRequestValidator = new CacheRequestValidator
       @_validators = [
         @_isntPrivate
         @_isntNoStore
@@ -41,81 +58,80 @@ define [
         @_hasCacheableStatusCode
       ]
 
-    store: (flag) ->
-      return  unless _.type(@_flag.store) is 'undefined'
-      @_flag.store = !!flag
+    _setStore: (flag) ->
+      return  unless _.type(@_canStore) is 'undefined'
+      @_canStore = !!flag
 
-    expires: (timestamp) ->
-      @_flag.until = timestamp  if timestamp < @_flag.until
-
-    # RFC 2616 Section 14.9
-    _isntPrivate: (res, resHeaders) ->
-      @store false  if !@config.userAgent and /private/.test(resHeaders['cache-control'] or '')
+    _setExpires: (timestamp) ->
+      @_expiresTime = timestamp  if timestamp < @_expiresTime
 
     # RFC 2616 Section 14.9
-    _isntNoStore: (res, resHeaders) ->
-      @store false  if /no-store(?!=)/.test(resHeaders['cache-control'] or '')
+    _isntPrivate: () ->
+      @_setStore false  if !@userAgent and /private/.test(@_resHeaders['cache-control'] or '')
 
     # RFC 2616 Section 14.9
-    _isntMaxAgeZero: (res, resHeaders) ->
-      @store false  if /max-age=(0|-[0-9]+)/.test(resHeaders['cache-control'] or '')
+    _isntNoStore: () ->
+      @_setStore false  if /no-store(?!=)/.test(@_resHeaders['cache-control'] or '')
 
     # RFC 2616 Section 14.9
-    _isMaxAgeFuture: (res, resHeaders) ->
-      matches = /max-age=([0-9]+)/.exec(resHeaders['cache-control'] or '')
+    _isntMaxAgeZero: () ->
+      @_setStore false  if /max-age=(0|-[0-9]+)/.test(@_resHeaders['cache-control'] or '')
+
+    # RFC 2616 Section 14.9
+    _isMaxAgeFuture: () ->
+      matches = /max-age=([0-9]+)/.exec(@_resHeaders['cache-control'] or '')
       return  unless matches
-      @store true
-      @expires new Date().getTime() + matches[1]
+      @_setStore true
+      @_setExpires new Date().getTime() + matches[1]
 
-    _hasExpires: (res, resHeaders) ->
-      return  unless resHeaders['expires']
-      @store true
-      @expires new Date(resHeaders['expires'])
+    _hasExpires: () ->
+      return  unless @_resHeaders['expires']
+      @_setStore true
+      @_setExpires new Date(@_resHeaders['expires'])
 
     # RFC 2616 Section 13.3.1
-    _hasLastModified: (res, resHeaders) ->
-      @store true  if resHeaders['last-modified']
+    _hasLastModified: () ->
+      @_setStore true  if @_resHeaders['last-modified']
 
-    _cacheableStatusCodes:
+    # RFC 2616 Section 13.4
+    _CACHEABLE_STATUS_CODES:
       200: 'OK'
       203: 'Non-Authoritative Information'
       300: 'Multiple Choices'
       301: 'Moved Permanently'
       401: 'Unauthorized'
 
-    _hasCacheableStatusCode: (res, resHeaders) ->
-      @store true  if res.statusCode of @._cacheableStatusCodes
-
-    _addStoreID: (req, res, resHeaders) ->
-      reqHeaders = {}
-      if req.headers
-        for header, value of req.headers
-          reqHeaders[header.toLowerCase()] = value
-      hash = [
-        req.url.toString()
-      ]
-      if resHeaders['vary']
-        vary = new TokenizedHeader resHeaders['vary']
-        for token of vary.tokens[0]
-          token = token.toLowerCase()
-          hash.push [token, reqHeaders[token]].join '='
-          @_flag.varyHeaders[token] = reqHeaders[token]
-      hash = hash.join '\n'
-      hash = Crypto.createHmac('SHA256', req.url.toString()).update(hash).digest('base64')
-      @_flag.ID = hash
+    _hasCacheableStatusCode: () ->
+      @_setStore true  if @_res.statusCode of @_CACHEABLE_STATUS_CODES
 
     test: (req, res) ->
-      @_flag =
-        store: undefined
-        ID: undefined
-        varyHeaders: {}
-        until: new Date().getTime() + 60 * 60 * 24 * 365.25 # RFC - caching should not exceed one year from now
-      if @_cachedRequestValidator.test(req).retrieve
-        resHeaders = {}
-        if res.headers
-          for header, value of res.headers
-            resHeaders[header.toLowerCase()] = value
-        validate.call @, res, resHeaders  for validate in @_validators
-      @_flag.store = !!@_flag.store
-      @_addStoreID req, res, resHeaders  if @_flag.store
-      @_flag
+      cacheRequest = @_cacheRequestValidator.test req
+
+      resHeaders = getNormalizedHeaders res.headers
+      resVary = []
+      if resHeaders['vary']
+        vary = new TokenizedHeader resHeaders['vary']
+        resVary.push token.toLowerCase()  for token of vary.tokens[0]
+
+      @_context =
+        _canStore: undefined
+        _expiresTime: new Date().getTime() + 60 * 60 * 24 * 365.25 # RFC - caching should not exceed one year from now
+        _reqID: getReqID req, resVary
+        _reqMethod: cacheRequest.reqMethod
+        _reqURI: cacheRequest.reqURI
+        _reqHeaders: cacheRequest.reqHeaders
+        _res: res
+        _resHeaders: resHeaders
+        _resVary: resVary
+        _lastFetchedTime: new Date(resHeaders['date']).getTime()
+        _lastAccessedTime: new Date().getTime()
+        _accessCount: 1
+
+      if cacheRequest.canRetrieve
+        validate.call @  for validate in @_validators
+      @_canStore = !!@_canStore
+
+      result = {}
+      result[key.substr(1)] = value  for key, value of @_context
+      delete @_context
+      result
