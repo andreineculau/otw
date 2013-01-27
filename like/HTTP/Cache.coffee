@@ -12,7 +12,13 @@ define [
 ) ->
   "use strict"
 
-  # Cache Storage
+  # Reference
+  # https://github.com/mikeal/request/pull/20
+  # https://github.com/ithinkihaveacat/node-fishback
+  # https://github.com/d11wtq/node-http-cache
+  # http://mnot.github.com/redbot/
+
+  # Cache
   class Cache
     self = @
     _cache: undefined
