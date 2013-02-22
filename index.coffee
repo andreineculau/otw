@@ -4,14 +4,17 @@ define [
   './like/Fluent'
   './like/HTTP'
   './like/JSON'
+  './like/NodeJS'
 ], (
   _
   Fluent
   HTTP
   JSON
+  NodeJS
 ) ->
   "use strict"
   _.Fluent = Fluent
   _.HTTP = HTTP
   _.JSON = JSON
+  _.NodeJS = NodeJS
   _

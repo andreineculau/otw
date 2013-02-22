@@ -4,15 +4,15 @@ define [
   './getNormalizedMethod'
   './getNormalizedURI'
   './getNormalizedHeaders'
+  '../NodeJS/url'
 ], (
   _
   getNormalizedMethod
   getNormalizedURI
   getNormalizedHeaders
+  url
 ) ->
   "use strict"
-
-  url = require 'url' # FIXME
 
   # Validate if a HTTP request should be served from a cache storage
   class CacheRequestValidator

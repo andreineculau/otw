@@ -1,12 +1,12 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   './_'
+  '../NodeJS/url'
 ], (
   _
+  url
 ) ->
   "use strict"
-
-  url = require 'url' # FIXME
 
   # Remove URI hash and/or query
   (URI, options = {}) ->

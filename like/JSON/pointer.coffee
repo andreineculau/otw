@@ -1,5 +1,5 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
-define () ->
+define ->
   "use strict"
   exports = {}
 

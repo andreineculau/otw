@@ -1,18 +1,18 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   './_'
+  '../NodeJS/crypto'
   './getNormalizedMethod'
   './getNormalizedURI'
   './getNormalizedHeaders'
 ], (
   _
+  Crypto
   getNormalizedMethod
   getNormalizedURI
   getNormalizedHeaders
 ) ->
   "use strict"
-
-  Crypto = require 'crypto' # FIXME
 
   # Get a unique request ID (based on method, URI and vary headers)
   (req, vary = []) ->

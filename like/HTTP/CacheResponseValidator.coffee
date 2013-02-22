@@ -2,19 +2,19 @@ define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   './_'
   './CacheRequestValidator'
+  '../NodeJS/crypto'
   './getNormalizedHeaders'
   './getReqID'
   './TokenizedHeader'
 ], (
   _
   CacheRequestValidator
+  Crypto
   getNormalizedHeaders
   getReqID
   TokenizedHeader
 ) ->
   "use strict"
-
-  Crypto = require 'crypto' # FIXME
 
   # Validate if a HTTP response can be cached
   class CacheResponseValidator
