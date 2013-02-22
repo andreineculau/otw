@@ -8,6 +8,6 @@ define [
 ) ->
   "use strict"
   {
-    safe: safe
-    unsafe: unsafe
+    safe
+    unsafe
   }

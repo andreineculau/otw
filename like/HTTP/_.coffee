@@ -10,22 +10,22 @@ define [
   '../_/type'
 ], (
   _
-  _clone
-  _cloneDeep
-  _configOption
-  _has
-  _map
-  _merge
-  _type
+  clone
+  cloneDeep
+  configOption
+  has
+  map
+  merge
+  type
 ) ->
   "use strict"
   {
-    clone: _clone
-    cloneDeep: _cloneDeep
-    compact: _.compact
-    configOption: _configOption
-    has: _has
-    map: _map
-    merge: _merge
-    type: _type
+    clone
+    cloneDeep
+    compact: _.compact # FIXME
+    configOption
+    has
+    map
+    merge
+    type
   }
