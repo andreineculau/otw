@@ -6,4 +6,12 @@ is a collection of small utility AMD/CJS modules.
 
 ## Modules
 
-* [type](blobl/master/src/type.js.README.md)
+See [source code](like).
+
+## Documentation
+* _
+    * [type](blobl/master/src/type.js.README.md)
+
+# License
+
+[MIT](LICENSE)
