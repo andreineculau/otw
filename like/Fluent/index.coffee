@@ -8,6 +8,6 @@ define [
 ) ->
   "use strict"
   {
-    AsyncFluentInterface: AsyncFluentInterface
-    FluentInterface: FluentInterface
+    AsyncFluentInterface
+    FluentInterface
   }
