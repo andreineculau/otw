@@ -11,3 +11,8 @@ define [
   # AcceptLanguage allows manipulation of Accept-Language headers
   class AcceptLanguageHeader extends TokenizedHeader
     _key: 'lang'
+
+    constructor: (header, config = {}) ->
+      return new AcceptLanguageHeader(header, config)  unless @ instanceof AcceptLanguageHeader
+      return header.clone @  if header instanceof AcceptLanguageHeader
+      super

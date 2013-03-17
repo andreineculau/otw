@@ -15,8 +15,8 @@ define [
     tokens: undefined
 
     constructor: (header, config = {}) ->
-      return new @constructor(header, config)  unless @ instanceof @constructor
-      return header.clone @  if header instanceof @constructor
+      return new TokenizedHeader(header, config)  unless @ instanceof TokenizedHeader
+      return header.clone @  if header instanceof TokenizedHeader
 
       # Shortcuts
       _.configOption.call @, configOption  for configOption in [
@@ -38,6 +38,7 @@ define [
     clone: (newInstance) ->
       for param in [
         '_key'
+        '_metaKeys'
         'config'
         'tokens'
       ]

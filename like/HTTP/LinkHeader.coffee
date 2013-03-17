@@ -12,6 +12,11 @@ define [
   class LinkHeader extends TokenizedHeader
     _key: 'href'
 
+    constructor: (header, config = {}) ->
+      return new LinkHeader(header, config)  unless @ instanceof LinkHeader
+      return header.clone @  if header instanceof LinkHeader
+      super
+
     ####
 
     _parseParamCallback: ([key, value, index]) ->

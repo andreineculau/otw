@@ -11,3 +11,8 @@ define [
   # AcceptEncoding allows manipulation of Accept-Encoding headers
   class AcceptEncodingHeader extends TokenizedHeader
     _key: 'encoding'
+
+    constructor: (header, config = {}) ->
+      return new AcceptEncodingHeader(header, config)  unless @ instanceof AcceptEncodingHeader
+      return header.clone @  if header instanceof AcceptEncodingHeader
+      super

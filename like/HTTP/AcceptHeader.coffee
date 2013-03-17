@@ -13,6 +13,11 @@ define [
     _key: 'mediaType'
     _metaKeys: ['type', 'subtype', 'syntax']
 
+    constructor: (header, config = {}) ->
+      return new AcceptHeader(header, config)  unless @ instanceof AcceptHeader
+      return header.clone @  if header instanceof AcceptHeader
+      super
+
     ####
 
     _parseTokenCallback: (token) ->
