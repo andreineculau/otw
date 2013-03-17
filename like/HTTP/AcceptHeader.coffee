@@ -10,36 +10,37 @@ define [
 
   # Accept allows manipulation of Accept headers
   class AcceptHeader extends TokenizedHeader
-    _parseParamCallback: ([key, value]) ->
-      if /^(application|audio|example|image|message|model|multipart|text|video)\/.+$/.test(key) and _.type(value) is 'undefined'
-        value = key
-        key = 'mediaType'
-      [key, value]
+    _key: 'mediaType'
+    _metaKeys: ['type', 'subtype', 'syntax']
 
+    ####
 
     _parseTokenCallback: (token) ->
-      syntax = (/\/([a-zA-Z]+)$/.exec(token.mediaType) or [])[1]
-      syntax ?= (/\/.+\+([a-zA-Z]+)$/.exec(token.mediaType) or [])[1]
-      if syntax
-        token.syntax = syntax
+      [type, subtype] = (/^(.*)\/(.*)$/.exec(token.mediaType) or []).slice 1
+      syntax = (/\/(?:.+\+)?([a-zA-Z\*]+)$/.exec(token.mediaType) or [])[1]
+      token.type = type  if type
+      token.subtype = subtype  if subtype
+      token.syntax = syntax  if syntax
       token
 
 
-    _stringifyParamCallback: ([key, value]) ->
-      param = []
-      switch key
-        when 'mediaType', 'syntax'
-          []
-        else
-          param = [key, value]
-      param
+    _matchParam: (key, knownValue, value) ->
+      result = super
+      if key is @_key
+        [knownType, knownSubtype] = (/^(.*)\/(.*)$/.exec(knownValue) or []).slice 1
+        [type, subtype] = (/^(.*)\/(.*)$/.exec(value) or []).slice 1
+        result = result or (knownType is type and '*' in [knownSubtype, subtype])
+        result = result or (knownSubtype is subtype and '*' in [knownType, type])
+        result = result or ('*' in [knownSubtype, subtype] or '*' in [knownType, type])
+      result
 
 
-    _stringifyTokenCallback: (params, token) ->
-      params.unshift token.mediaType
-      params
-
-
-    constructor: (header, config = {}) ->
-      return new AcceptHeader(header, config)  unless @ instanceof AcceptHeader
-      super
+    _getMatchWeight: (key, knownValue, value) ->
+      [weight, outOf] = super
+      if key is @_key
+        [knownType, knownSubtype] = (/^(.*)\/(.*)$/.exec(knownValue) or []).slice 1
+        [type, subtype] = (/^(.*)\/(.*)$/.exec(value) or []).slice 1
+        weight = weight / 2  if (knownType is type and '*' in [knownSubtype, subtype])
+        weight = weight / 2  if (knownSubtype is subtype and '*' in [knownType, type])
+        weight = weight / 4  if ('*' in [knownSubtype, subtype] or '*' in [knownType, type])
+      [weight, outOf]

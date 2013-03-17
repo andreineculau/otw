@@ -4,18 +4,26 @@ define [
   '../_/clone'
   '../_/cloneDeep'
   '../_/configOption'
+  '../_/extend'
   '../_/has'
+  '../_/keys'
   '../_/map'
   '../_/merge'
+  '../_/sortBy'
+  '../_/size'
   '../_/type'
 ], (
   _
   clone
   cloneDeep
   configOption
+  extend
   has
+  keys
   map
   merge
+  sortBy
+  size
   type
 ) ->
   "use strict"
@@ -24,8 +32,14 @@ define [
     cloneDeep
     compact: _.compact # FIXME
     configOption
+    extend
+    find: _.find # FIXME
     has
+    keys
     map
     merge
+    sortBy
+    size
     type
+    union: _.union # FIXME
   }

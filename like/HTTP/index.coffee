@@ -1,6 +1,9 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
+  './AcceptCharsetHeader'
+  './AcceptEncodingHeader'
   './AcceptHeader'
+  './AcceptLanguageHeader'
   './ContentTypeHeader'
   './getLinksFromHeaders'
   './getNormalizedHeaders'
@@ -10,7 +13,10 @@ define [
   './LinkHeader'
   './TokenizedHeader'
 ], (
+  AcceptCharsetHeader
+  AcceptEncodingHeader
   AcceptHeader
+  AcceptLanguageHeader
   ContentTypeHeader
   getLinksFromHeaders
   getNormalizedHeaders
@@ -23,7 +29,10 @@ define [
   "use strict"
 
   {
+    AcceptCharsetHeader
+    AcceptEncodingHeader
     AcceptHeader
+    AcceptLanguageHeader
     ContentTypeHeader
     getLinksFromHeaders
     getNormalizedHeaders

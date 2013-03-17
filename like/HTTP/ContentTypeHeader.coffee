@@ -10,12 +10,8 @@ define [
 
   # Content-Type allows manipulation of Content-Type headers
   class ContentTypeHeader extends AcceptHeader
-    self = @
-
-    ####
-
     constructor: (header, options = {}) ->
-      return new ContentTypeHeader(header, config)  unless @ instanceof ContentTypeHeader
+      return new @constructor(header, config)  unless @ instanceof @constructor
       super
       @tokens = @tokens.slice 0, 1
       @token = @tokens[0]

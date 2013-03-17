@@ -10,28 +10,16 @@ define [
 
   # LinkHeader allows manipulation of Link headers
   class LinkHeader extends TokenizedHeader
-    _parseParamCallback: ([key, value]) ->
-      if /^<.*>$/.test(key) and _.type(value) is 'undefined'
-        value = key.substr 1, key.length-2
-        key = 'href'
+    _key: 'href'
+
+    ####
+
+    _parseParamCallback: ([key, value, index]) ->
+      if index is 0 and value[0] is '<' and value[value.length-1] is '>' # URIs are wrapped in <>
+        value = value.substr 1, value.length-2
       [key, value]
 
 
-    _stringifyParamCallback: ([key, value]) ->
-      param = []
-      switch key
-        when 'href'
-          []
-        else
-          param = [key, value]
-      param
-
-
     _stringifyTokenCallback: (params, token) ->
-      params.unshift "<#{token.href}>"
+      params[0] = "<#{params[0]}>" # URIs are wrapped in <>
       params
-
-
-    constructor: (header, config = {}) ->
-      return new LinkHeader(header, config)  unless @ instanceof LinkHeader
-      super header, config
