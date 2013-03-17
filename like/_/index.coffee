@@ -7,12 +7,18 @@ define [
   './configOption'
   './each'
   './eachAsync'
+  './extend'
   './extendDeep'
   './has'
   './isPlainObject'
+  './keys'
+  './lookupIterator'
   './map'
   './mapAsync'
   './merge'
+  './pluck'
+  './size'
+  './sortBy'
   './type'
   './Deferred'
 ], (
@@ -23,12 +29,18 @@ define [
   configOption
   each
   eachAsync
+  extend
   extendDeep
   has
   isPlainObject
+  keys
+  lookupIterator
   map
   mapAsync
   merge
+  pluck
+  sortBy
+  size
   type
   Deferred
 ) ->
@@ -42,12 +54,18 @@ define [
     configOption
     each
     eachAsync
+    extend
     extendDeep
     has
     isPlainObject
+    keys
+    lookupIterator
     map
     mapAsync
     merge
+    pluck
+    sortBy
+    size
     type
     Deferred
   }

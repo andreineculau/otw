@@ -6,6 +6,4 @@ define [
 )->
   "use strict"
 
-  (args...) ->
-    args.push true
-    _extendDeep.apply @, args
+  _extendDeep

@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  delete __.clone
-  delete __.merge
+  commonFuns = _.without(_.keys(__), _.keys(_))
+  __ = _.omit __, commonFuns
   _.mixin __
   _
