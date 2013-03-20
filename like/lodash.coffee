@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  commonFuns = _.without(_.keys(__), _.keys(_))
+  commonFuns = _.intersection(_.keys(__), _.keys(_))
   __ = _.omit __, commonFuns
   _.mixin __
   _
