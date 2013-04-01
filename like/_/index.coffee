@@ -17,6 +17,7 @@ define [
   './mapAsync'
   './merge'
   './pluck'
+  './random'
   './size'
   './sortBy'
   './type'
@@ -39,6 +40,7 @@ define [
   mapAsync
   merge
   pluck
+  random
   sortBy
   size
   type
@@ -64,6 +66,7 @@ define [
     mapAsync
     merge
     pluck
+    random
     sortBy
     size
     type
