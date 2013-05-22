@@ -14,7 +14,7 @@ define [
     config: undefined
     tokens: undefined
 
-    constructor: (header, config = {}) ->
+    constructor: (header = '', config = {}) ->
       return new TokenizedHeader(header, config)  unless @ instanceof TokenizedHeader
       return header.clone @  if header instanceof TokenizedHeader
 
@@ -210,3 +210,10 @@ define [
         tokenHandler.best.score
       chosen or= tokenHandlerList[0]
       chosen
+
+
+    matchesToken: (token) ->
+      tokenHandlerList = {}
+      tokenHandlerList[token] = () ->
+      chosen = @chooseTokenHandler tokenHandlerList
+      chosen isnt undefined
