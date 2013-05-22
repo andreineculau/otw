@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  # AcceptCharset allows manipulation of Accept-Charset headers
+  # AcceptCharsetHeader allows manipulation of Accept-Charset headers
   class AcceptCharsetHeader extends TokenizedHeader
     _key: 'charset'
 

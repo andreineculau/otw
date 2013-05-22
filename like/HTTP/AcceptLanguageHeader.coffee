@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  # AcceptLanguage allows manipulation of Accept-Language headers
+  # AcceptLanguageHeader allows manipulation of Accept-Language headers
   class AcceptLanguageHeader extends TokenizedHeader
     _key: 'lang'
 

@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  # Accept allows manipulation of Accept headers
+  # AcceptHeader allows manipulation of Accept headers
   class AcceptHeader extends TokenizedHeader
     _key: 'mediaType'
     _metaKeys: ['type', 'subtype', 'syntax']

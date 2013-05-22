@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  # Content-Type allows manipulation of Content-Type headers
+  # ContentTypeHeader allows manipulation of Content-Type headers
   class ContentTypeHeader extends AcceptHeader
     constructor: (header, config = {}) ->
       return new ContentTypeHeader(header, config)  unless @ instanceof ContentTypeHeader

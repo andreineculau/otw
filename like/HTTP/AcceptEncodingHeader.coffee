@@ -8,7 +8,7 @@ define [
 ) ->
   "use strict"
 
-  # AcceptEncoding allows manipulation of Accept-Encoding headers
+  # AcceptEncodingHeader allows manipulation of Accept-Encoding headers
   class AcceptEncodingHeader extends TokenizedHeader
     _key: 'encoding'
 
